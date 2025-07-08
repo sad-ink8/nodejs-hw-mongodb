@@ -9,12 +9,12 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 export const startServer = () => {
   const app = express();
   const PORT = Number(getEnvVar('PORT', '3000'));
+  app.use(cors());
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
-  app.use(cors());
 
   app.use(
     pino({
@@ -26,7 +26,7 @@ export const startServer = () => {
 
   app.use(contactsRouter);
 
-  app.use('*', notFoundHandler);
+  app.use(notFoundHandler);
 
   app.use(errorHandler);
 
