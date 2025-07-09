@@ -10,14 +10,6 @@ import createHttpError from 'http-errors';
 export const getContactsController = async (req, res) => {
   const contacts = await getAllContacts();
 
-  if (contacts.length === 0) {
-    res.status(404).json({
-      status: 404,
-      message: 'Contacts not found',
-    });
-    return;
-  }
-
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -57,7 +49,7 @@ export const patchContactController = async (req, res, next) => {
   const result = await updateContact(contactId, req.body);
 
   if (!result) {
-    next(createHttpError(404, 'Contact not found'));
+    throw (createHttpError(404, 'Contact not found'));
     return;
   }
 
@@ -73,7 +65,7 @@ export const deleteContactController = async (req, res, next) => {
   const contact = await deleteContact(contactId);
 
   if (!contact) {
-    next(createHttpError(404, 'Contact not found'));
+    throw (createHttpError(404, 'Contact not found'));
     return;
   }
 
