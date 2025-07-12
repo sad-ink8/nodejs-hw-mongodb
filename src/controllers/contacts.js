@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import {
   getAllContacts,
   getContactById,
@@ -5,11 +6,12 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
-import createHttpError from 'http-errors';
+
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-//import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+
+//import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 //import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getContactsController = async (req, res) => {
@@ -47,8 +49,14 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
+  const photo = req.file;
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToCloudinary(photo);
+  }
   const contact = await createContact({
     ...req.body,
+    photo: photoUrl,
     userId: req.user._id,
   });
 
