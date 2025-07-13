@@ -39,7 +39,6 @@ router.patch(
 
 router.post(
   '/',
-
   upload.single('photo'),
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
