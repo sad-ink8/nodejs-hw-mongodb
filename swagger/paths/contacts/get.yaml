@@ -22,6 +22,14 @@ parameters:
       type: string
       enum: ['asc', 'desc']
       example: 'asc'
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      enum: ['name', 'phoneNumber', 'email']
+      example: 'name'
+      default: '_id'
+    description: 'Sort contacts by name, phone number or email'
 responses:
   '200':
     description: Successfully found contacts!
